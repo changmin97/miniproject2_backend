@@ -1,33 +1,33 @@
 const mongoose = require("mongoose")
 
 const { Schema } = mongoose;
-  const boardsSchema = new Schema({
-    boardId: {
+  const postSchema = new Schema({
+    postId: {
         type: Number,
         required: true,
         unique: true
     },
-    title: {
+    product: {
         type: String,
         required: true
     },
-    username : {
+    nickname : {
         type: String
     },
     content : {
         type: String,
         required: true
     },
-    time : {
-        type: Date,
-        required: true
+    image : {
+      type: String,
+      required: true
     }
 });
-boardsSchema.virtual("userId").get(function () {
+postSchema.virtual("userId").get(function () {
     return this._id.toHexString();
   });
-  boardsSchema.set("toJSON", {
+  postSchema.set("toJSON", {
     virtuals: true,
   });
 
-module.exports = mongoose.model("Boards", boardsSchema);
+module.exports = mongoose.model("Post", postSchema);

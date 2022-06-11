@@ -3,10 +3,12 @@ const connect = require("./schemas");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
+connect();
 
-const boardsRouter = require("./routes/boards");
+//라우터
+const postsRouter = require("./routes/posts");
 const usersRouter = require("./routes/users");
-const commentRouter = require("./routes/comment");
+const commentsRouter = require("./routes/comments");
 
 mongoose.connect(
   "mongodb+srv://test:sparta@cluster0.7o347.mongodb.net/blog?retryWrites=true&w=majority",
@@ -18,22 +20,16 @@ mongoose.connect(
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 
+//미들웨어
 app.use(express.json());
 app.use(
-  "/api",
+  "/",
   express.urlencoded({ extended: false }),
-  [boardsRouter],
+  [postsRouter],
   [usersRouter],
-  [commentRouter]
+  [commentsRouter]
 );
 
-app.get("/", (req, res) => {
-  res.send("Blog Mainpage");
-});
-
-app.get("/upload", (req, res) => {
-  res.send("Upload page");
-});
 app.listen(port, () => {
   console.log("포트로 서버 ON!");
 });
